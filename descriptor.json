@@ -1,8 +1,8 @@
 {
-  "name": "SpotCounting-CellProfiler",
-  "description": "Workflow for spot counting in CellProfiler",
+  "name": "Measurements-CellProfiler",
+  "description": "Workflow for Measurements in CellProfiler",
   "container-image": {
-    "image": "torecluik/w_spotcounting-cellprofiler",
+    "image": "cellularimagingcf/w_measurements-cellprofiler",
     "type": "singularity"
   },
   "command-line": "python wrapper.py CYTOMINE_HOST CYTOMINE_PUBLIC_KEY CYTOMINE_PRIVATE_KEY CYTOMINE_ID_PROJECT CYTOMINE_ID_SOFTWARE",
@@ -51,6 +51,59 @@
       "set-by-server": true,
       "optional": false,
       "type": "Number"
+    },
+    {
+      "id": "cytomine_id_software",
+      "value-key": "@ID",
+      "command-line-flag": "--@id",
+      "name": "BIAFLOWS software ID",
+      "set-by-server": true,
+      "optional": false,
+      "type": "Number"
+    },
+    {
+      "id": "nuclei_mask_suffix",
+      "value-key": "@ID",
+      "command-line-flag": "--@id",
+      "name": "Suffix for Nuclei Mask",
+      "description": "Suffix to identify the nuclei (greyscale) mask images",
+      "default-value": "_Nuclei_Mask",
+      "set-by-server": false,
+      "optional": true,
+      "type": "String"
+    },
+    {
+      "id": "aggregates_mask_suffix",
+      "value-key": "@ID",
+      "command-line-flag": "--@id",
+      "name": "Suffix for Aggregates Mask",
+      "description": "Suffix to identify some aggregates (greyscale) mask images",
+      "default-value": "_Aggregates_Mask",
+      "set-by-server": false,
+      "optional": true,
+      "type": "String"
+    },
+    {
+      "id": "cells_mask_suffix",
+      "value-key": "@ID",
+      "command-line-flag": "--@id",
+      "name": "Suffix for Cells Mask",
+      "description": "Suffix to identify the cells (greyscale) mask images",
+      "default-value": "_Cells_Mask",
+      "set-by-server": false,
+      "optional": true,
+      "type": "String"
+    },
+    {
+      "id": "metric_channels",
+      "value-key": "@ID",
+      "command-line-flag": "--@id",
+      "name": "Channels to measure",
+      "description": "List of all the channels of the original image to be used for intensity measurements. E.g. 1,2,3 for RGB.",
+      "default-value": "1,2,3",
+      "set-by-server": false,
+      "optional": true,
+      "type": "String"
     }
   ],
 
