@@ -1,6 +1,7 @@
 import shutil
 import sys
 import os
+import csv
 from cytomine.models import Job
 from subprocess import run
 from biaflows import CLASS_SPTCNT
@@ -28,6 +29,65 @@ PARAMETER_SUFFIXES = {
     AGGREGATES_MASK_KEY: "aggregates_mask_suffix",
     CELLS_MASK_KEY: "cells_mask_suffix"
 }
+
+
+def infer_column_type(values):
+    """
+    Infers the data type of a column based on its values.
+    
+    Parameters:
+    values (list): A list of strings representing the values in a column.
+    
+    Returns:
+    str: A single character representing the inferred data type:
+        'd' for DoubleColumn (floating point numbers),
+        'l' for LongColumn (integer numbers),
+        's' for StringColumn (text),
+        'b' for BoolColumn (true/false).
+    
+    The function determines the type as follows:
+        - If all values can be interpreted as booleans ('true' or 'false'), it returns 'b'.
+        - If all values can be interpreted as integers, it returns 'l'.
+        - If all values can be interpreted as floats, it returns 'd'.
+        - Otherwise, it returns 's' for strings.
+    
+    Note:
+    - Empty values are ignored in type determination.
+    - The function performs case-insensitive checks for boolean values.
+    """
+    is_float = True
+    is_int = True
+    is_bool = True
+
+    for value in values:
+        # Handle empty values
+        if value == '':
+            continue
+        
+        # Check if value is boolean
+        if value.lower() in ('true', 'false'):
+            continue
+        is_bool = False
+
+        # Check if value is integer
+        try:
+            int(value)
+        except ValueError:
+            is_int = False
+
+        # Check if value is float
+        try:
+            float(value)
+        except ValueError:
+            is_float = False
+
+    if is_bool:
+        return 'b'
+    if is_int:
+        return 'l'
+    if is_float:
+        return 'd'
+    return 's'
 
 
 def parse_cellprofiler_parameters(bj, cppipe, tmpdir):
@@ -160,6 +220,54 @@ def main(argv):
             shutil.move(mod_pipeline, os.path.join(out_path, mod_pipeline_unique_name))
         # ---------------------------------------------------------------- #
         # ---------------- RUN CELLPROFILER HEADLESS // END ------------- ##
+        # ---------------------------------------------------------------- #
+        
+        # ---------------------------------------------------------------- #
+        # ----------------- POSTPROCESS CSV // START -------------------- ##
+        # ---------------------------------------------------------------- #
+        # Get a list of CSV files in the directory
+        csv_files = [f for f in os.listdir(out_path) if f.endswith('.csv')]
+        # Loop over each CSV file
+        for csv_file in csv_files:
+            csv_file_path = os.path.join(out_path, csv_file)
+            temp_file_path = csv_file_path + '.temp'
+
+            # Read the original CSV content
+            with open(csv_file_path, mode='r', newline='') as infile:
+                reader = csv.reader(infile)
+                _ = next(reader) # skip header
+                # Read up to 10 rows for type inference
+                data_samples = []
+                try:
+                    for _ in range(10):
+                        row = next(reader)
+                        data_samples.append(row)
+                except StopIteration:
+                    pass  # End of file reached
+
+            # Transpose the data to analyze columns
+            transposed_samples = list(zip(*data_samples))
+            
+            # Infer type hints based on the columns' data
+            type_hints = [infer_column_type(column) for column in transposed_samples]
+            type_hints[0] = f'# header {type_hints[0]}'
+
+            # Write the updated content to a new temporary file
+            with open(temp_file_path, mode='w', newline='') as outfile:
+                writer = csv.writer(outfile, delimiter=',')
+
+                # Write the type hint line
+                writer.writerow(type_hints)
+
+                # Write the original data from the original CSV
+                with open(csv_file_path, mode='r', newline='') as infile:
+                    reader = csv.reader(infile)
+                    writer.writerows(reader)  # Write remaining rows
+
+            # Replace the original file with the updated file
+            os.replace(temp_file_path, csv_file_path)
+        # ---------------------------------------------------------------- #
+        # ----------------- POSTPROCESS CSV // END ---------------------- ##
         # ---------------------------------------------------------------- #
 
         # ---------------------------------------------------------------- #
