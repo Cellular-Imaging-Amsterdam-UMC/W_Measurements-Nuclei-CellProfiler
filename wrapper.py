@@ -18,15 +18,14 @@ CELLS_MASK_KEY = "_Cells_Mask"
 
 NAMES_AND_TYPES_MODULE_INDEX = 2
 
+# Index in the pipeline, 1-based count for parameters of that module
 MASK_INDICES = {
     14: NUCLEI_MASK_KEY,
-    20: AGGREGATES_MASK_KEY,
-    32: CELLS_MASK_KEY
+    26: CELLS_MASK_KEY
 }
 
 PARAMETER_SUFFIXES = {
     NUCLEI_MASK_KEY: "nuclei_mask_suffix",
-    AGGREGATES_MASK_KEY: "aggregates_mask_suffix",
     CELLS_MASK_KEY: "cells_mask_suffix"
 }
 
@@ -187,7 +186,7 @@ def main(argv):
             tmp_path += f"/{timestamp}"  # timestamp in ms
             os.mkdir(tmp_path)  # setup tmp
 
-        pipeline = "/app/FullMeasurementsNucleiCellAggregates.cppipe"
+        pipeline = "/app/FullMeasurementsNucleiCell.cppipe"
         # ---------------------------------------------------------------- #
         # ----------------- SETUP ARGS & PATHS // END ------------------- ##
         # ---------------------------------------------------------------- #

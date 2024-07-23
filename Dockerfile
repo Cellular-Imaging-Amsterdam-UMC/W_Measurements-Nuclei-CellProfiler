@@ -15,7 +15,7 @@ RUN python -m pip install 'git+https://github.com/TorecLuik/biaflows-utilities@v
 # Add repository files: wrapper, command and descriptor
 RUN mkdir /app
 ADD wrapper.py /app/wrapper.py
-ADD FullMeasurementsNucleiCellAggregates.cppipe /app/FullMeasurementsNucleiCellAggregates.cppipe
+ADD FullMeasurementsNucleiCell.cppipe /app/FullMeasurementsNucleiCell.cppipe
 ADD descriptor.json /app/descriptor.json
 
 ENTRYPOINT ["python","/app/wrapper.py"]

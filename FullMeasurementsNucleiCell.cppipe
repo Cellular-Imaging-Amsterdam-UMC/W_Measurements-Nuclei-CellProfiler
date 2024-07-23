@@ -2,7 +2,7 @@ CellProfiler Pipeline: http://www.cellprofiler.org
 Version:5
 DateRevision:426
 GitHash:
-ModuleCount:12
+ModuleCount:10
 HasImagePlaneDetails:False
 
 Images:[module_num:1|svn_version:'Unknown'|variable_revision_number:2|show_window:False|notes:['To begin creating your project, use the Images module to compile a list of files and/or folders that you want to analyze. You can also specify a set of rules to include only the desired files in your selected folders.']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
@@ -34,7 +34,7 @@ NamesAndTypes:[module_num:3|svn_version:'Unknown'|variable_revision_number:8|sho
     Match metadata:[]
     Image set matching method:Order
     Set intensity range from:Image metadata
-    Assignments count:4
+    Assignments count:3
     Single images count:0
     Maximum intensity:255.0
     Process as 3D?:No
@@ -44,12 +44,6 @@ NamesAndTypes:[module_num:3|svn_version:'Unknown'|variable_revision_number:8|sho
     Select the rule criteria:and (file does contain "_Nuclei_Mask")
     Name to assign these images:Nuclei
     Name to assign these objects:Nuclei
-    Select the image type:Objects
-    Set intensity range from:Image metadata
-    Maximum intensity:255.0
-    Select the rule criteria:and (file does contain "_Aggregates_Mask")
-    Name to assign these images:Aggregates
-    Name to assign these objects:Aggregates
     Select the image type:Objects
     Set intensity range from:Image metadata
     Maximum intensity:255.0
@@ -115,16 +109,16 @@ MaskObjects:[module_num:6|svn_version:'Unknown'|variable_revision_number:3|show_
 
 MeasureObjectIntensity:[module_num:7|svn_version:'Unknown'|variable_revision_number:4|show_window:True|notes:['Measure intensity features from nuclei and cell objects against the cropped DAPI image.']|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
     Select images to measure:Channel1, Channel2, Channel3
-    Select objects to measure:Aggregates, Cells, Cytoplasm, Nuclei
+    Select objects to measure:Cells, Cytoplasm, Nuclei
 
 MeasureObjectSizeShape:[module_num:8|svn_version:'Unknown'|variable_revision_number:3|show_window:True|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
-    Select object sets to measure:Aggregates, Cells, Cytoplasm, Nuclei
+    Select object sets to measure:Cells, Cytoplasm, Nuclei
     Calculate the Zernike features?:Yes
     Calculate the advanced features?:Yes
 
 RelateObjects:[module_num:9|svn_version:'Unknown'|variable_revision_number:5|show_window:True|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
     Parent objects:Cells
-    Child objects:Aggregates
+    Child objects:Nuclei
     Calculate child-parent distances?:Both
     Calculate per-parent means for all child measurements?:Yes
     Calculate distances to other parents?:No
@@ -132,27 +126,7 @@ RelateObjects:[module_num:9|svn_version:'Unknown'|variable_revision_number:5|sho
     Name the output object:RelateObjects
     Parent name:None
 
-RelateObjects:[module_num:10|svn_version:'Unknown'|variable_revision_number:5|show_window:True|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
-    Parent objects:Nuclei
-    Child objects:Aggregates
-    Calculate child-parent distances?:Both
-    Calculate per-parent means for all child measurements?:Yes
-    Calculate distances to other parents?:No
-    Do you want to save the children with parents as a new object set?:No
-    Name the output object:RelateObjects
-    Parent name:None
-
-RelateObjects:[module_num:11|svn_version:'Unknown'|variable_revision_number:5|show_window:True|notes:[]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
-    Parent objects:Cytoplasm
-    Child objects:Aggregates
-    Calculate child-parent distances?:Both
-    Calculate per-parent means for all child measurements?:Yes
-    Calculate distances to other parents?:No
-    Do you want to save the children with parents as a new object set?:No
-    Name the output object:RelateObjects
-    Parent name:None
-
-ExportToSpreadsheet:[module_num:12|svn_version:'Unknown'|variable_revision_number:13|show_window:False|notes:["Export any measurements to a comma-delimited file (.csv). The measurements made for the nuclei, cell and cytoplasm objects will be saved to separate .csv files, in addition to the per-image .csv's."]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
+ExportToSpreadsheet:[module_num:10|svn_version:'Unknown'|variable_revision_number:13|show_window:False|notes:["Export any measurements to a comma-delimited file (.csv). The measurements made for the nuclei, cell and cytoplasm objects will be saved to separate .csv files, in addition to the per-image .csv's."]|batch_state:array([], dtype=uint8)|enabled:True|wants_pause:False]
     Select the column delimiter:Comma (",")
     Add image metadata columns to your object data file?:No
     Add image file and folder names to your object data file?:No

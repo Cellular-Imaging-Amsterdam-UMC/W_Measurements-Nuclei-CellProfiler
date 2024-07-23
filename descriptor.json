@@ -1,8 +1,8 @@
 {
-  "name": "Measurements-CellProfiler",
-  "description": "Workflow for Measurements in CellProfiler",
+  "name": "Measurements-Nuclei-CellProfiler",
+  "description": "Workflow for Nuclei Measurements in CellProfiler",
   "container-image": {
-    "image": "cellularimagingcf/w_measurements-cellprofiler",
+    "image": "cellularimagingcf/w_measurements-nuclei-cellprofiler",
     "type": "singularity"
   },
   "command-line": "python wrapper.py CYTOMINE_HOST CYTOMINE_PUBLIC_KEY CYTOMINE_PRIVATE_KEY CYTOMINE_ID_PROJECT CYTOMINE_ID_SOFTWARE",
@@ -68,17 +68,6 @@
       "name": "Suffix for Nuclei Mask",
       "description": "Suffix to identify the nuclei (greyscale) mask images",
       "default-value": "_Nuclei_Mask",
-      "set-by-server": false,
-      "optional": true,
-      "type": "String"
-    },
-    {
-      "id": "aggregates_mask_suffix",
-      "value-key": "@ID",
-      "command-line-flag": "--@id",
-      "name": "Suffix for Aggregates Mask",
-      "description": "Suffix to identify some aggregates (greyscale) mask images",
-      "default-value": "_Aggregates_Mask",
       "set-by-server": false,
       "optional": true,
       "type": "String"
