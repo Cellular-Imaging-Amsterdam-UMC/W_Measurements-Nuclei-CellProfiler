@@ -53,15 +53,6 @@
       "type": "Number"
     },
     {
-      "id": "cytomine_id_software",
-      "value-key": "@ID",
-      "command-line-flag": "--@id",
-      "name": "BIAFLOWS software ID",
-      "set-by-server": true,
-      "optional": false,
-      "type": "Number"
-    },
-    {
       "id": "nuclei_mask_suffix",
       "value-key": "@ID",
       "command-line-flag": "--@id",
